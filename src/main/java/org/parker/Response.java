@@ -12,7 +12,7 @@ public interface Response {
         Success
     }
 
-    enum InvalidRequest {
+    enum InvalidRequest implements Response{
         InvalidRequest
     }
 }

@@ -9,6 +9,11 @@ public class ClientSession {
         this.server = server;
     }
     public Response authenticate(String username, String password){
+        if (username == null) return Response.InvalidRequest.InvalidRequest;
+        if (password == null) return Response.InvalidRequest.InvalidRequest;
+        if (username.isBlank()) return Response.InvalidRequest.InvalidRequest;
+        if (password.isBlank()) return Response.InvalidRequest.InvalidRequest;
+
         if (unsuccessfulAttempts >= 3){
             return Response.SessionFailure.TooManyAttempts;
         }
