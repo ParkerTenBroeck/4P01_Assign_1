@@ -9,17 +9,17 @@ public class ClientSession {
         this.server = server;
     }
     public Response authenticate(String username, String password){
-        if (username == null) return Response.InvalidRequest.InvalidRequest;
-        if (password == null) return Response.InvalidRequest.InvalidRequest;
-        if (username.isBlank()) return Response.InvalidRequest.InvalidRequest;
-        if (password.isBlank()) return Response.InvalidRequest.InvalidRequest;
+        if (username == null) return Response.InvalidRequest.MalformedUsername;
+        if (password == null) return Response.InvalidRequest.MalformedPassword;
+        if (username.isBlank()) return Response.InvalidRequest.MalformedUsername;
+        if (password.isBlank()) return Response.InvalidRequest.MalformedPassword;
 
         if (unsuccessfulAttempts >= 3){
             return Response.SessionFailure.TooManyAttempts;
         }
         var response = server.authenticate(username, password);
         unsuccessfulAttempts += 1;
-        if (response == Response.Success.Success){
+        if (response == Response.AuthenticationSuccess.Success){
             unsuccessfulAttempts = 0;
         }
         return response;

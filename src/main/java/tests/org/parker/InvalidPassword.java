@@ -17,11 +17,11 @@ public class InvalidPassword {
     void setUp() {
         server = new Server((username, password) -> {
             if (!username.equals("Hello")){
-                return Response.AccountFailure.UnknownUser;
+                return Response.AuthenticationFailure.UnknownUser;
             }else if (!password.equals("supersecret")){
-                return Response.AccountFailure.InvalidPassword;
+                return Response.AuthenticationFailure.InvalidPassword;
             }else{
-                return Response.Success.Success;
+                return Response.AuthenticationSuccess.Success;
             }
         });
         session = new ClientSession(server)::authenticate;
@@ -30,11 +30,11 @@ public class InvalidPassword {
     @Test
     void testInvalidPassword() {
         assertEquals(
-                Response.AccountFailure.InvalidPassword,
+                Response.AuthenticationFailure.InvalidPassword,
                 session.authenticate("Hello", "super secret")
         );
         assertEquals(
-                Response.AccountFailure.InvalidPassword,
+                Response.AuthenticationFailure.InvalidPassword,
                 session.authenticate("Hello", "super_secret")
         );
     }

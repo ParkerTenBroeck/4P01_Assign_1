@@ -16,11 +16,11 @@ public class SuccessAuth {
     void setUp() {
         server = new Server((username, password) -> {
             if (!username.equals("Bob")){
-                return Response.AccountFailure.UnknownUser;
+                return Response.AuthenticationFailure.UnknownUser;
             }else if (!password.equals("supersecret")){
-                return Response.AccountFailure.InvalidPassword;
+                return Response.AuthenticationFailure.InvalidPassword;
             }else{
-                return Response.Success.Success;
+                return Response.AuthenticationSuccess.Success;
             }
         });
         session = new ClientSession(server)::authenticate;
@@ -29,7 +29,7 @@ public class SuccessAuth {
     @Test
     void testSuccessfulAuth() {
         assertEquals(
-                Response.Success.Success,
+                Response.AuthenticationSuccess.Success,
                 session.authenticate("Bob", "supersecret")
         );
     }

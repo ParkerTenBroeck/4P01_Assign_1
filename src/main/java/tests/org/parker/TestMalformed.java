@@ -16,11 +16,11 @@ public class TestMalformed {
     void setUp() {
         server = new Server((username, password) -> {
             if (!username.equals("Bob")){
-                return Response.AccountFailure.UnknownUser;
+                return Response.AuthenticationFailure.UnknownUser;
             }else if (!password.equals("supersecret")){
-                return Response.AccountFailure.InvalidPassword;
+                return Response.AuthenticationFailure.InvalidPassword;
             }else{
-                return Response.Success.Success;
+                return Response.AuthenticationSuccess.Success;
             }
         });
         session = new ClientSession(server)::authenticate;
@@ -29,23 +29,23 @@ public class TestMalformed {
     @Test
     void testMalformedRequest() {
         assertEquals(
-                Response.InvalidRequest.InvalidRequest,
+                Response.InvalidRequest.MalformedUsername,
                 session.authenticate("", "supersecret")
         );
         assertEquals(
-                Response.InvalidRequest.InvalidRequest,
+                Response.InvalidRequest.MalformedUsername,
                 session.authenticate("", "")
         );
         assertEquals(
-                Response.InvalidRequest.InvalidRequest,
+                Response.InvalidRequest.MalformedPassword,
                 session.authenticate("Bob", "")
         );
         assertEquals(
-                Response.InvalidRequest.InvalidRequest,
+                Response.InvalidRequest.MalformedPassword,
                 session.authenticate("Bob", null)
         );
         assertEquals(
-                Response.InvalidRequest.InvalidRequest,
+                Response.InvalidRequest.MalformedUsername,
                 session.authenticate(null, null)
         );
     }

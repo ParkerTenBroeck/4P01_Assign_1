@@ -1,18 +1,18 @@
 package org.parker;
 
 public interface Response {
-    enum AccountFailure implements Response{
+    enum AuthenticationFailure implements Response{
         InvalidPassword,
         UnknownUser,
     }
     enum SessionFailure implements Response{
         TooManyAttempts,
     }
-    enum Success implements Response{
+    enum AuthenticationSuccess implements Response{
         Success
     }
-
     enum InvalidRequest implements Response{
-        InvalidRequest
+        MalformedPassword,
+        MalformedUsername,
     }
 }
